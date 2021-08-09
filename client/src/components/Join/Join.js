@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 
 import './Join.css';
 
+const DEFAULT_ROOM = 'default';
+
 export default function Join() {
     const [name, setName] = useState("");
-    const [room, setRoom] = useState("");
+    const [room, setRoom] = useState(DEFAULT_ROOM);
 
     return (
         <div className="joinOuterContainer">
@@ -23,10 +25,10 @@ export default function Join() {
                 <div>
                     <select
                         value={room}
-                        onChange={({ target }) => setRoom(target.value)} defaultValue="default"
+                        onChange={({ target }) => setRoom(target.value)}
                         className="joinInput mt-20"
                     >
-                        <option value="default">Select A Room</option>
+                        <option value={DEFAULT_ROOM}>Select A Room</option>
                         <option value="JavaScript">JavaScript</option>
                         <option value="PHP">PHP</option>
                         <option value=".NET">.NET</option>
@@ -34,7 +36,7 @@ export default function Join() {
                     </select>
                 </div>
                 <Link
-                    onClick={e => (!name || !room) ? e.preventDefault() : null} to={`/chat?name=${name}&room=${room}`}
+                    onClick={e => (!name || !room || room === DEFAULT_ROOM) ? e.preventDefault() : null} to={`/chat?name=${name}&room=${room}`}
                 >
                     <button className="button mt-20" type="submit">Sign In</button>
                 </Link>

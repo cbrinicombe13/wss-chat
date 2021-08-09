@@ -29,6 +29,7 @@ body {
 
 .joinInput {
   border-radius: 0;
+  border: 1px solid gray;
   padding: 15px 20px;
   width: 100%;
 }
