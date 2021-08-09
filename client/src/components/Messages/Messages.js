@@ -8,7 +8,7 @@ const MAX_NAMES = 3;
 
 export default function Messages({ messages, name, users }) {
 
-    users = users.filter(user => user.name !== name.trim().toLowerCase());
+    users = users.filter(user => user.name !== name);
     let names = users.map(user => user.name);
     names.unshift('You');
     let inlineNames;
