@@ -10,7 +10,7 @@ export default function Join() {
     return (
         <div className="joinOuterContainer">
             <div className="joinInnerContainer">
-                <h1 className="heading">Join</h1>
+                <h1 className="heading">Join A Room</h1>
                 <div>
                     <input
                         placeholder="Name"
@@ -21,13 +21,17 @@ export default function Join() {
                     />
                 </div>
                 <div>
-                    <input
-                        placeholder="Room"
-                        className="joinInput mt-20"
-                        type="text"
-                        onChange={({ target }) => setRoom(target.value)}
+                    <select
                         value={room}
-                    />
+                        onChange={({ target }) => setRoom(target.value)} defaultValue="default"
+                        className="joinInput mt-20"
+                    >
+                        <option value="default">Select A Room</option>
+                        <option value="JavaScript">JavaScript</option>
+                        <option value="PHP">PHP</option>
+                        <option value=".NET">.NET</option>
+                        <option value="Ruby">Ruby</option>
+                    </select>
                 </div>
                 <Link
                     onClick={e => (!name || !room) ? e.preventDefault() : null} to={`/chat?name=${name}&room=${room}`}

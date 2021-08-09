@@ -19,7 +19,8 @@ body {
   text-align: center;
   height: 100vh;
   align-items: center;
-  background-color: #1a1a1d;
+  background-image: url("./assets/background.jpeg");
+  background-size: cover;
 }
 
 .joinInnerContainer {
@@ -43,7 +44,7 @@ body {
   color: #fff !important;
   text-transform: uppercase;
   text-decoration: none;
-  background: #2979ff;
+  background: var(--primary-light);
   padding: 20px;
   border-radius: 5px;
   display: inline-block;
