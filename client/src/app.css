@@ -1,0 +1,13 @@
+:root {
+  --primary-light: #6dbbe9;
+  --secondary-light: #83c6f0;
+}
+
+.fa-circle {
+  color: #00CC00;
+  margin-right: 10px;
+}
+
+.fa-users {
+    color: lightgrey;
+}
