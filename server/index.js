@@ -85,6 +85,8 @@ io.on('connection', (socket) => {
                 room: user.room,
                 users: userService.getUsersInRoom(user.room)
             });
+
+            io.sockets.to(user.room).emit('isntTyping', { name: user.name });
         }
     });
 })

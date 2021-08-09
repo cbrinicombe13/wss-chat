@@ -8,6 +8,11 @@
   padding: 2% 0 0 2%;
 }
 
+.typers {
+    color: lightgrey;
+    margin-left: 1%;
+}
+
 .messages {
   margin-top: 2%;
 }
@@ -30,7 +35,7 @@
 }
 
 .ticontainer .tidot {
-  background-color: #90949c;
+  background-color: lightgrey;
 }
 
 .tidot {
