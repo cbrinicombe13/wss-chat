@@ -5,6 +5,7 @@ const http = require('http');
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 
 const PORT = process.env.PORT || 5000;
+const BOT_NAME = 'Chat Bot';
 
 const router = require('./router');
 
@@ -28,9 +29,9 @@ io.on('connection', (socket) => {
 
         if (error && callback) return callback(error);
 
-        socket.emit('message', { user: 'Chat Bot', text: `Welcome to ${user.room}!` });
+        socket.emit('message', { user: BOT_NAME, text: `Welcome to ${user.room}!` });
 
-        io.sockets.to(user.room).emit('message', { user: 'Chat Bot', text: `${user.name} has joined the room` });
+        io.sockets.to(user.room).emit('message', { user: BOT_NAME, text: `${user.name} has joined the room` });
 
         socket.join(user.room);
 
@@ -59,7 +60,7 @@ io.on('connection', (socket) => {
         const user = removeUser(socket.id);
 
         if (user) {
-            io.to(user.room).emit('message', { user: 'Chat Bot', text: `${user.name} has left...` });
+            io.to(user.room).emit('message', { user: BOT_NAME, text: `${user.name} has left...` });
 
             io.to(user.room).emit('roomData', {
                 room: user.room,
