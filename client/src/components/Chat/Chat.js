@@ -46,21 +46,23 @@ export default function Chat({ location }) {
             setUsers(data.users);
         });
 
-        // Typing on listener
-        socket.on('isTyping', (typer) => {
-            setTypers(tprs => [...tprs, typer.name]);
-        })
-
         // Typing off listener
         socket.on('isntTyping', (typer) => {
-            typer.name !== name && setTypers(tprs => tprs.filter(tprName => tprName !== typer.name));
-        })
+            setTypers(tprs => tprs.filter(tprName => tprName !== typer.name));
+        });
 
         return () => {
             socket.disconnect();
             socket.off();
         }
     }, []);
+
+    // Typing on listener
+    useEffect(() => {
+        socket.on('isTyping', (typer) => {
+            name !== '' && typer.name !== name && setTypers(tprs => [...tprs, typer.name]);
+        });
+    }, [name]);
 
     // Typing emitters
     useEffect(() => {
