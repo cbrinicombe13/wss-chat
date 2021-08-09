@@ -44,16 +44,16 @@ export default function Messages({ messages, name, users, typers }) {
                     ))}
                 </div>
             </ScrollToBottom>
-            {
-                typers.length > 0 &&
-                <div className="ticontainer">
+            <div className="ticontainer">
+                {
+                    typers.length > 0 &&
                     <div className="tiblock">
                         <div className="tidot"></div>
                         <div className="tidot"></div>
                         <div className="tidot"></div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </React.Fragment>
 
     )
