@@ -17,8 +17,8 @@ const io = socketio(server, {
 });
 
 io.on('connection', (socket) => {
-    console.log('New connection');
 
+    // Join room response
     socket.on('join', ({ name, room }, callback = null) => {
         const { error, user } = userService.addUser({
             id: socket.id,
@@ -42,6 +42,25 @@ io.on('connection', (socket) => {
         callback && callback();
     });
 
+    // Typing response
+    socket.on('typing', (callback = null) => {
+        const user = userService.getUser(socket.id);
+
+        io.sockets.to(user.room).emit('isTyping', { name: user.name });
+
+        callback && callback();
+    });
+
+    // Stop typing response
+    socket.on('notTyping', (callback = null) => {
+        const user = userService.getUser(socket.id);
+
+        io.sockets.to(user.room).emit('isntTyping', { name: user.name });
+
+        callback && callback();
+    });
+
+    // Message response
     socket.on('sendMessage', (message, callback = null) => {
         const user = userService.getUser(socket.id);
 
@@ -55,6 +74,7 @@ io.on('connection', (socket) => {
         callback && callback();
     });
 
+    // Leave room response
     socket.on('disconnect', () => {
         const user = userService.removeUser(socket.id);
 

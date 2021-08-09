@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import queryString from 'query-string';
 import io from 'socket.io-client';
 
@@ -15,8 +15,11 @@ export default function Chat({ location }) {
     const [room, setRoom] = useState("");
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
-    const [users, setusers] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [typers, setTypers] = useState([]);
+    const prevMessageRef = useRef('');
 
+    // Join room
     useEffect(() => {
         const { name, room } = queryString.parse(location.search);
         setName(name);
@@ -33,19 +36,47 @@ export default function Chat({ location }) {
     }, [location.search]);
 
     useEffect(() => {
+        // Messaging listener
         socket.on('message', (message) => {
             setMessages(msgs => [...msgs, message]);
         });
 
+        // Room users listener
         socket.on('roomData', (data) => {
-            setusers(data.users);
+            setUsers(data.users);
         });
+
+        // Typing on listener
+        socket.on('isTyping', (typer) => {
+            setTypers(tprs => [...tprs, typer.name]);
+        })
+
+        // Typing off listener
+        socket.on('isntTyping', (typer) => {
+            typer.name !== name && setTypers(tprs => tprs.filter(tprName => tprName !== typer.name));
+        })
 
         return () => {
             socket.disconnect();
             socket.off();
         }
     }, []);
+
+    // Typing emitters
+    useEffect(() => {
+        const startedTyping = prevMessageRef.current === "" && message !== "";
+        const stoppedTyping = prevMessageRef.current !== "" && message === "";
+
+        if (startedTyping) {
+            socket.emit('typing');
+        }
+
+        if (stoppedTyping) {
+            socket.emit('notTyping');
+        }
+
+        prevMessageRef.current = message;
+    }, [prevMessageRef, message]);
 
     const sendMessage = () => {
         if (message) {
@@ -58,7 +89,12 @@ export default function Chat({ location }) {
         <div className="outerContainer">
             <div className="container">
                 <InfoBar room={room} />
-                <Messages messages={messages} name={name} users={users} />
+                <Messages
+                    messages={messages}
+                    name={name}
+                    users={users}
+                    typers={typers}
+                />
                 <Input
                     message={message}
                     setMessage={setMessage}

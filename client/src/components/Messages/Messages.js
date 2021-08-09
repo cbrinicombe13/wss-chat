@@ -6,7 +6,7 @@ import './Messages.css';
 
 const MAX_NAMES = 3;
 
-export default function Messages({ messages, name, users }) {
+export default function Messages({ messages, name, users, typers }) {
 
     users = users.filter(user => user.name !== name);
     let names = users.map(user => user.name);
@@ -44,6 +44,16 @@ export default function Messages({ messages, name, users }) {
                     ))}
                 </div>
             </ScrollToBottom>
+            {
+                typers.length > 0 &&
+                <div className="ticontainer">
+                    <div className="tiblock">
+                        <div className="tidot"></div>
+                        <div className="tidot"></div>
+                        <div className="tidot"></div>
+                    </div>
+                </div>
+            }
         </React.Fragment>
 
     )
