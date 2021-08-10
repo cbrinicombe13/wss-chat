@@ -3,6 +3,7 @@ const socketio = require('socket.io');
 const http = require('http');
 const UserService = require('./services/UserService');
 const router = require('./router');
+const cors = require('cors');
 
 const userService = new UserService();
 const PORT = process.env.PORT || 5000;
@@ -15,6 +16,8 @@ const io = socketio(server, {
         origin: '*'
     }
 });
+
+app.use(cors());
 
 io.on('connection', (socket) => {
 
